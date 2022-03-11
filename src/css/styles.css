@@ -1,30 +1,49 @@
+*{margin: 0;padding: 0;}
+
 #area{
     display: flex;
+    margin:20px;
 }
 
-#campo{
+/*#campo{
     background-image: url("../img/campo.PNG");
     width: 235px;
     height: 256px;
-    
+}*/
+
+.linha{
+    display: flex;
+    flex-direction: row;
+}
+
+.celula{
+    width: 60px;
+    height: 60px;
+    border: black 1px solid;
 }
 
 #irrigador{
-    background-image: url("../img/orientacoes.PNG");
-    /*transform: rotate(270deg);*/
-    background-position-x: 0px; /* decréscimo de 35 para virar à direita, 
+    /*rodando a imagem de norte*/
+    /*
+    background-image: url("../img/orientacao_n.PNG");
+    transform: rotate(90deg);
+    */
+    /*deslocando a imagem de orientações*/
+    background-image: url("../img/irr_n.png");
+    background-position-x: 0px; /* decréscimo de 35 para virar à direita, */
+        /*
         0 = norte,
         (35, -105) = oeste,
         (70, -70) = sul,
         (105, -35) = leste
-    */
-    width: 35px;
-    height: 30px;
-    margin-top: 192px; /* passos de 36px, começa em 12px, 12 é y = 5, 12 + 36*(5-y)*/
-    margin-left: 60px; /* passos de 40px, começa em 20px, 20 é x = 0, 20 + 40*x */
+        */
+    width: 60px; /*35*/
+    height: 60px;
+    margin-top: 12px; /* passos de 36px, começa em 12px, 12 é y = 5, 12 + 36*(5-y)*/
+    margin-left: 20px; /* passos de 40px, começa em 20px, 20 é x = 0, 20 + 40*x */
 }
 
-.controles{
+#controles{
     display: flex;
     flex-direction: column;
     margin-top: 30px;

@@ -7,23 +7,26 @@
     <title>Teste Lógico Schaffen</title>
     <link rel="stylesheet" href="src/css/styles.css">
 </head>
-<body>
+<body onload="criarFormCampo()">
     <div id="area">
         <div id="campo">
+            <div class="linha">
+                <div class="celula">
+                    <div id="irrigador"></div>
+                </div>
+                <div class="celula"></div>
+                <div class="celula"></div>
+            </div>
+            <div class="linha">
+                <div class="celula"></div>
+                <div class="celula"></div>
+                <div class="celula"></div>
+            </div>
         </div>
-        <div class="controles">
-            <form class="form-control" >
-                <input type="number" name="pos_x" id="ipt_x" placeholder="Digite a posição inicial em x">
-                <input type="number" name="pos_y" id="ipt_y" placeholder="Digite a posição inicial em y">
-                <input type="text" name="teta" id="ipt_or" placeholder="Digite a orientação (n,l,s,o)">
-            </form>
-            <button onclick="posicionar()">Posicionar</button>
+        <div id="controles">
+            <form id="form-pos" class="form-control" ></form>
         </div>
     </div>
-
-    <script type="text/javascript" src="src/js/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="src/js/jquery-collision.min.js">console.log('Pesquisar sobre jquery-collision')</script>
 	<script type="text/javascript" src="src/js/index.js"></script>
-    <script type="text/javascript" src="src/js/caminho.js"></script>
 </body>
 </html>
