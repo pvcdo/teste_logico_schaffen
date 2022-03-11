@@ -1,0 +1,43 @@
+#area{
+    display: flex;
+}
+
+#campo{
+    background-image: url("../img/campo.PNG");
+    width: 235px;
+    height: 256px;
+    
+}
+
+#irrigador{
+    background-image: url("../img/orientacoes.PNG");
+    /*transform: rotate(270deg);*/
+    background-position-x: 0px; /* decréscimo de 35 para virar à direita, 
+        0 = norte,
+        (35, -105) = oeste,
+        (70, -70) = sul,
+        (105, -35) = leste
+    */
+    width: 35px;
+    height: 30px;
+    margin-top: 192px; /* passos de 36px, começa em 12px, 12 é y = 5, 12 + 36*(5-y)*/
+    margin-left: 60px; /* passos de 40px, começa em 20px, 20 é x = 0, 20 + 40*x */
+}
+
+.controles{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-left: 30px;
+}
+
+.form-control{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+form input{
+    margin-bottom: 10px;
+    width: 300px;
+}

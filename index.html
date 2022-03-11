@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Lógico Schaffen</title>
+    <link rel="stylesheet" href="src/css/styles.css">
+</head>
+<body>
+    <div id="area">
+        <div id="campo">
+        </div>
+        <div class="controles">
+            <form class="form-control" >
+                <input type="number" name="pos_x" id="ipt_x" placeholder="Digite a posição inicial em x">
+                <input type="number" name="pos_y" id="ipt_y" placeholder="Digite a posição inicial em y">
+                <input type="text" name="teta" id="ipt_or" placeholder="Digite a orientação (n,l,s,o)">
+            </form>
+            <button onclick="posicionar()">Posicionar</button>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="src/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="src/js/jquery-collision.min.js">console.log('Pesquisar sobre jquery-collision')</script>
+	<script type="text/javascript" src="src/js/index.js"></script>
+    <script type="text/javascript" src="src/js/caminho.js"></script>
+</body>
+</html>
