@@ -95,7 +95,70 @@ function criarCampo(){
   criarFormPtsIrr(nX,nY)
 }
 
+function criarFormPtsIrr(tamanhoCampoX,tamanhoCampoY){
+  const controles = document.getElementById('controles')
+
+  const formPtsIrr = document.createElement('form')
+  formPtsIrr.className = 'form-control'
+  formPtsIrr.id = 'form-pts-irr'
+
+  const ipt_x = document.createElement('input')
+  ipt_x.type = 'number'
+  ipt_x.name = 'pos_x'
+  ipt_x.id = 'ipt_x'
+  ipt_x.placeholder = 'Digite a posição em x'
+  
+  const ipt_y = document.createElement('input')
+  ipt_y.type = 'number'
+  ipt_y.name = 'pos_y'
+  ipt_y.id = 'ipt_y'
+  ipt_y.placeholder = 'Digite a posição em y'
+  
+  const botao_add = document.createElement('button')
+  botao_add.id = 'btn-add-pt'
+  botao_add.innerHTML = "Posicionar ponto"
+  botao_add.addEventListener('click',function(){pontoIrr(tamanhoCampoX,tamanhoCampoY)} )
+
+  const botao_pos = document.createElement('button')
+  botao_pos.id = 'btn-form-pos'
+  botao_pos.innerHTML = "Posicionar irrigador"
+  botao_pos.addEventListener('click',function(){criarFormPos(tamanhoCampoX,tamanhoCampoY)})
+
+  formPtsIrr.appendChild(ipt_x)
+  formPtsIrr.appendChild(ipt_y)
+
+  controles.appendChild(formPtsIrr)
+  controles.appendChild(botao_add)
+  controles.appendChild(botao_pos)
+}
+
+function pontoIrr(tamanhoCampoX,tamanhoCampoY){
+  const campo = document.getElementById('campo')
+  
+  const x = parseInt(document.getElementById('ipt_x').value)
+  const y = parseInt(document.getElementById('ipt_y').value)
+
+  document.getElementById('ipt_x').value = ""
+  document.getElementById('ipt_y').value = ""
+
+  console.log(x,y)
+
+  const pt_irr = document.createElement('img')
+  pt_irr.src = "./src/img/pt_irr.png"
+  pt_irr.className = "pt_irr"
+  pt_irr.style.top = `${60*(tamanhoCampoY-(y+1))}px`
+  pt_irr.style.left = `${60*x+22}px`
+
+  campo.appendChild(pt_irr)
+
+  console.log('ponto de irrigação posicionado')
+}
+
 function criarFormPos(tamanhoCampoX,tamanhoCampoY){
+  document.getElementById('form-pts-irr').remove()
+  document.getElementById('btn-add-pt').remove()
+  document.getElementById('btn-form-pos').remove()
+
   const controles = document.getElementById('controles')
 
   const formPos = document.createElement('form')
@@ -120,22 +183,20 @@ function criarFormPos(tamanhoCampoX,tamanhoCampoY){
   ipt_teta.id = 'ipt_or'
   ipt_teta.placeholder = 'Digite a orientação (n,l,s,o)'
 
-  const botao = document.createElement('button')
-  botao.id = 'btn-pos'
-  botao.innerHTML = "Posicionar"
-  botao.addEventListener('click',function(){posicionar(tamanhoCampoX,tamanhoCampoY)} )
+  const botao_pos = document.createElement('button')
+  botao_pos.id = 'btn-pos'
+  botao_pos.innerHTML = "Posicionar"
+  botao_pos.addEventListener('click',function(){posicionar(tamanhoCampoX,tamanhoCampoY)} )
 
   formPos.appendChild(ipt_x)
   formPos.appendChild(ipt_y)
   formPos.appendChild(ipt_teta)
 
   controles.appendChild(formPos)
-  controles.appendChild(botao)
+  controles.appendChild(botao_pos)
 }
 
 function posicionar(tamanhoCampoX,tamanhoCampoY){
-  criarFormPos(nX,nY)
-
   const campo = document.getElementById('campo')
   
   const x = parseInt(document.getElementById('ipt_x').value)
@@ -148,14 +209,13 @@ function posicionar(tamanhoCampoX,tamanhoCampoY){
 
   console.log(x,y,or)
 
-  const prim_cel = document.getElementsByClassName('celula')[0]
-
-  prim_cel.innerHTML = "<div id='irrigador'></div>"
-
-  const irrigador = document.getElementById('irrigador')
-
-  irrigador.style.marginTop = `${60*(tamanhoCampoY-(y+1))}px`
-  irrigador.style.marginLeft = `${60*x}px`
+  const irrigador = document.createElement('img')
+  irrigador.src = "./src/img/irr_n_t.png"
+  irrigador.id = 'irrigador'
+  console.log(60*(tamanhoCampoY-(y+1)))
+  console.log('tamanhocampoy: ' + tamanhoCampoY)
+  irrigador.style.top = `${60*(tamanhoCampoY-(y+1))}px`
+  irrigador.style.left = `${60*x+22}px`
 
   let teta
 
@@ -166,68 +226,9 @@ function posicionar(tamanhoCampoX,tamanhoCampoY){
 
   irrigador.style.transform = `rotate(${teta}deg)`
 
+  campo.appendChild(irrigador)
+
   console.log('irrigador posicionado')
-}
-
-function criarFormPtsIrr(tamanhoCampoX,tamanhoCampoY){
-  const controles = document.getElementById('controles')
-
-  const formPos = document.createElement('form')
-  formPos.className = 'form-control'
-  formPos.id = 'form-pos'
-
-  const ipt_x = document.createElement('input')
-  ipt_x.type = 'number'
-  ipt_x.name = 'pos_x'
-  ipt_x.id = 'ipt_x'
-  ipt_x.placeholder = 'Digite a posição em x'
-  
-  const ipt_y = document.createElement('input')
-  ipt_y.type = 'number'
-  ipt_y.name = 'pos_y'
-  ipt_y.id = 'ipt_y'
-  ipt_y.placeholder = 'Digite a posição em y'
-
-  const botao_add = document.createElement('button')
-  botao_add.id = 'btn-pos'
-  botao_add.innerHTML = "Posicionar ponto"
-  botao_add.addEventListener('click',function(){pontoIrr(tamanhoCampoX,tamanhoCampoY)} )
-
-  const botao_pos = document.createElement('button')
-  botao_pos.id = 'btn-pos'
-  botao_pos.innerHTML = "Posicionar irrigador"
-  botao_pos.addEventListener('click',function(){posicionar(tamanhoCampoX,tamanhoCampoY)} )
-
-  formPos.appendChild(ipt_x)
-  formPos.appendChild(ipt_y)
-
-  controles.appendChild(formPos)
-  controles.appendChild(botao_add)
-  controles.appendChild(botao_pos)
-}
-
-function pontoIrr(tamanhoCampoX,tamanhoCampoY){
-  const campo = document.getElementById('campo')
-  
-  const x = parseInt(document.getElementById('ipt_x').value)
-  const y = parseInt(document.getElementById('ipt_y').value)
-
-  document.getElementById('ipt_x').value = ""
-  document.getElementById('ipt_y').value = ""
-
-  console.log(x,y)
-
-  const prim_cel = document.getElementsByClassName('celula')[0]
-
-  const pt_irr = document.createElement('div')
-  pt_irr.id = "pt_irr"
-
-  prim_cel.appendChild(pt_irr)
-
-  pt_irr.style.marginTop = `${60*(tamanhoCampoY-(y+1))}px`
-  pt_irr.style.marginLeft = `${60*x}px`
-
-  console.log('ponto de irrigação posicionado')
 }
 
 function caminho(/*x, y, or*/) {

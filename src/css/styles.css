@@ -5,11 +5,9 @@
     margin:20px;
 }
 
-/*#campo{
-    background-image: url("../img/campo.PNG");
-    width: 235px;
-    height: 256px;
-}*/
+#campo{
+    position: relative;    
+}
 
 .linha{
     display: flex;
@@ -52,20 +50,16 @@
 }
 
 #irrigador{
-    background-image: url("../img/irr_n_t.png");
+    position: absolute;
     transform: rotate(180deg);
-    width: 60px;
-    height: 60px;
-    margin-top: 0px; /* passos de 60px, começa em 0px, 0 é y = tamanhoCampoY-1, 60*(tamanhoCampo(y)-y)*/
-    margin-left: 0px; /* passos de 60px, começa em 0px, 0 é x = 0, 60*x */
+    top: 0px; /* passos de 60px, começa em 0px, 0 é y = tamanhoCampoY-1, 60*(tamanhoCampo(y)-y)*/
+    left: 0px; /* passos de 60px, começa em 0px, 0 é x = 0, 60*x */
 }
 
-#pt_irr{
-    background-image: url("../img/pt_irr.png");
-    width: 60px;
-    height: 60px;
-    margin-top: 0px;
-    margin-left: 0px;
+.pt_irr{
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 #controles{
