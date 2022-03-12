@@ -16,31 +16,56 @@
     flex-direction: row;
 }
 
-.celula{
+.linha .celula{
     width: 60px;
     height: 60px;
-    border: black 1px solid;
+    border-top: black 1px solid;
+    border-left: black 1px solid;
+}
+
+.linha .cel-f{
+    border-right: black 1px solid;
+}
+
+.lin-f .celula{
+    border-bottom: black 1px solid;
+}
+
+.id-linha{
+   line-height: 60px;
+   width: 20px;
+}
+
+#indice-coluna{
+    display:flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.id-coluna-pr{
+    width: 20px;
+}
+
+.id-coluna{
+    width: 60px;
+    text-align: center;
 }
 
 #irrigador{
-    /*rodando a imagem de norte*/
-    /*
-    background-image: url("../img/orientacao_n.PNG");
-    transform: rotate(90deg);
-    */
-    /*deslocando a imagem de orientações*/
-    background-image: url("../img/irr_n.png");
-    background-position-x: 0px; /* decréscimo de 35 para virar à direita, */
-        /*
-        0 = norte,
-        (35, -105) = oeste,
-        (70, -70) = sul,
-        (105, -35) = leste
-        */
-    width: 60px; /*35*/
+    background-image: url("../img/irr_n_t.png");
+    transform: rotate(180deg);
+    width: 60px;
     height: 60px;
-    margin-top: 12px; /* passos de 36px, começa em 12px, 12 é y = 5, 12 + 36*(5-y)*/
-    margin-left: 20px; /* passos de 40px, começa em 20px, 20 é x = 0, 20 + 40*x */
+    margin-top: 0px; /* passos de 60px, começa em 0px, 0 é y = tamanhoCampoY-1, 60*(tamanhoCampo(y)-y)*/
+    margin-left: 0px; /* passos de 60px, começa em 0px, 0 é x = 0, 60*x */
+}
+
+#pt_irr{
+    background-image: url("../img/pt_irr.png");
+    width: 60px;
+    height: 60px;
+    margin-top: 0px;
+    margin-left: 0px;
 }
 
 #controles{
