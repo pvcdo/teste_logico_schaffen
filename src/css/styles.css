@@ -9,6 +9,11 @@
     position: relative;    
 }
 
+#lateral{
+    display: flex;
+    flex-direction: column;
+}
+
 .linha{
     display: flex;
     flex-direction: row;
@@ -78,4 +83,26 @@
 form input{
     margin-bottom: 10px;
     width: 300px;
+}
+
+#tabelas{
+    margin-left: 30px; 
+    margin-top: 30px;
+}
+
+#tabelas table{
+    width: 100%;
+    margin-top: 10px;
+}
+
+#tabelas h3{
+    margin-top: 10px;
+}
+
+#tabelas td{
+    text-align: center;
+}
+
+#tabelas table, th, td{
+    border: black 1px solid;
 }

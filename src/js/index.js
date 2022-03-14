@@ -102,6 +102,12 @@ function criarFormPtsIrr(tamanhoCampoX,tamanhoCampoY){
   formPtsIrr.className = 'form-control'
   formPtsIrr.id = 'form-pts-irr'
 
+  const ipt_id = document.createElement('input')
+  ipt_id.type = 'hidden'
+  ipt_id.name = 'id'
+  ipt_id.id = 'ipt_id'
+  ipt_id.value = 1
+
   const ipt_x = document.createElement('input')
   ipt_x.type = 'number'
   ipt_x.name = 'pos_x'
@@ -124,6 +130,7 @@ function criarFormPtsIrr(tamanhoCampoX,tamanhoCampoY){
   botao_pos.innerHTML = "Posicionar irrigador"
   botao_pos.addEventListener('click',function(){criarFormPos(tamanhoCampoX,tamanhoCampoY)})
 
+  formPtsIrr.appendChild(ipt_id)
   formPtsIrr.appendChild(ipt_x)
   formPtsIrr.appendChild(ipt_y)
 
@@ -135,6 +142,7 @@ function criarFormPtsIrr(tamanhoCampoX,tamanhoCampoY){
 function pontoIrr(tamanhoCampoX,tamanhoCampoY){
   const campo = document.getElementById('campo')
   
+  const id = parseInt(document.getElementById('ipt_id').value)
   const x = parseInt(document.getElementById('ipt_x').value)
   const y = parseInt(document.getElementById('ipt_y').value)
 
@@ -151,7 +159,59 @@ function pontoIrr(tamanhoCampoX,tamanhoCampoY){
 
   campo.appendChild(pt_irr)
 
+  criarTabelaPtsIrr(id,x,y)
+
   console.log('ponto de irrigação posicionado')
+}
+
+function criarTabelaPtsIrr(id,x,y){
+  const area_tabela = document.getElementById('tabelas')
+
+  if(id === 1){
+    var titulo_h3 = document.createElement('h3')
+    titulo_h3.innerHTML = "Pontos de irrigação"
+
+    var tabela = document.createElement('table')
+    const linha_cab = document.createElement('tr')
+    const cab_id = document.createElement('th')
+    const cab_x = document.createElement('th')
+    const cab_y = document.createElement('th')
+
+    tabela.id = 'tabela-pts-irr'
+
+    cab_id.innerHTML = "id"
+    cab_x.innerHTML = "x"
+    cab_y.innerHTML = "y"
+
+    linha_cab.appendChild(cab_id)
+    linha_cab.appendChild(cab_x)
+    linha_cab.appendChild(cab_y)
+
+    tabela.appendChild(linha_cab)
+
+    area_tabela.appendChild(titulo_h3)
+    area_tabela.appendChild(tabela)
+  }else{
+    var tabela = document.getElementById('tabela-pts-irr')
+  }
+
+  const tr = document.createElement('tr')
+  const el_id = document.createElement('td')
+  const el_x = document.createElement('td')
+  const el_y = document.createElement('td')
+
+  el_id.innerHTML = id
+  el_x.innerHTML =  x
+  el_y.innerHTML =  y
+
+  tr.appendChild(el_id)
+  tr.appendChild(el_x)
+  tr.appendChild(el_y)
+
+  tabela.appendChild(tr)
+
+  const id_novo_valor = ++id
+  document.getElementById('ipt_id').value = id_novo_valor
 }
 
 function criarFormPos(tamanhoCampoX,tamanhoCampoY){
@@ -164,6 +224,12 @@ function criarFormPos(tamanhoCampoX,tamanhoCampoY){
   const formPos = document.createElement('form')
   formPos.className = 'form-control'
   formPos.id = 'form-pos'
+
+  const ipt_ini = document.createElement('input')
+  ipt_ini.type = 'hidden'
+  ipt_ini.name = 'pos_ini'
+  ipt_ini.id = 'ipt_ini'
+  ipt_ini.value = true
 
   const ipt_x = document.createElement('input')
   ipt_x.type = 'number'
@@ -188,6 +254,7 @@ function criarFormPos(tamanhoCampoX,tamanhoCampoY){
   botao_pos.innerHTML = "Posicionar"
   botao_pos.addEventListener('click',function(){posicionar(tamanhoCampoX,tamanhoCampoY)} )
 
+  formPos.appendChild(ipt_ini)
   formPos.appendChild(ipt_x)
   formPos.appendChild(ipt_y)
   formPos.appendChild(ipt_teta)
@@ -198,7 +265,9 @@ function criarFormPos(tamanhoCampoX,tamanhoCampoY){
 
 function posicionar(tamanhoCampoX,tamanhoCampoY){
   const campo = document.getElementById('campo')
+  const controles = document.getElementById('controles')
   
+  const ini = document.getElementById('ipt_ini').value
   const x = parseInt(document.getElementById('ipt_x').value)
   const y = parseInt(document.getElementById('ipt_y').value)
   const or = document.getElementById('ipt_or').value
@@ -228,17 +297,113 @@ function posicionar(tamanhoCampoX,tamanhoCampoY){
 
   campo.appendChild(irrigador)
 
+  manipularTabelaPosIrr(ini,or,x,y)
+
+  const botao_iniciar = document.createElement('button')
+  botao_iniciar.id = 'btn-ini'
+  botao_iniciar.innerHTML = "Iniciar irrigação"
+  botao_iniciar.addEventListener('click',function(){irrigar(tamanhoCampoX,tamanhoCampoY)} )
+  
+  controles.appendChild(botao_iniciar)
+
   console.log('irrigador posicionado')
 }
 
-function caminho(/*x, y, or*/) {
+function manipularTabelaPosIrr(ini,or,x,y){
+  const area_tabela = document.getElementById('tabelas')
 
-  /*
+  if(ini === "true"){
+    var titulo_h3 = document.createElement('h3')
+    titulo_h3.innerHTML = "Posição do irrigador"
+
+    var tabela = document.createElement('table')
+    const linha_cab = document.createElement('tr')
+    const cab_or = document.createElement('th')
+    const cab_x = document.createElement('th')
+    const cab_y = document.createElement('th')
+
+    tabela.id = 'tabela-pos-irr'
+
+    cab_or.innerHTML = "Orientação"
+    cab_x.innerHTML = "x"
+    cab_y.innerHTML = "y"
+
+    linha_cab.appendChild(cab_x)
+    linha_cab.appendChild(cab_y)
+    linha_cab.appendChild(cab_or)
+
+    const tr = document.createElement('tr')
+    const el_x = document.createElement('td')
+    const el_y = document.createElement('td')
+    const el_or = document.createElement('td')
+
+    el_x.innerHTML = x
+    el_y.innerHTML = y
+    el_or.innerHTML = or
+
+    tr.appendChild(el_x)
+    tr.appendChild(el_y)
+    tr.appendChild(el_or)
+
+    tabela.appendChild(linha_cab)
+    tabela.appendChild(tr)
+
+    area_tabela.appendChild(titulo_h3)
+    area_tabela.appendChild(tabela)
+
+    document.getElementById('ipt_ini').value = false
+  }else{
+    var tabela = document.getElementById('tabela-pos-irr')
+    document.getElementById('irrigador').remove()
+
+    const el_x = tabela.getElementsByTagName('td')[0]
+    const el_y = tabela.getElementsByTagName('td')[1]
+    const el_or = tabela.getElementsByTagName('td')[2]
+
+    el_or.innerHTML = or
+    el_x.innerHTML =  x
+    el_y.innerHTML =  y
+
+  }
+}
+
+function irrigar(){
+  
+  const pts_irr = []
+  const pos_irri = []
+
+  const tabela_pts_irr = document.getElementById('tabela-pts-irr')
+  const pontos = tabela_pts_irr.getElementsByTagName('tr')
+  const n_pts = pontos.length
+
+  for(let n = 1; n < n_pts; n++){
+    const ponto_x = parseInt(pontos[n].children[1].innerHTML)
+    const ponto_y = parseInt(pontos[n].children[2].innerHTML)
+
+    pts_irr.push([ponto_x,ponto_y])
+  }
+
+  const tabela_pos_irr = document.getElementById('tabela-pos-irr')
+  const posicao = tabela_pos_irr.getElementsByTagName('tr')[1]
+  
+  const ponto_x = parseInt(posicao.children[0].innerHTML)
+  const ponto_y = parseInt(posicao.children[1].innerHTML)
+  const ponto_or = posicao.children[2].innerHTML
+
+  pos_irri.push([ponto_x,ponto_y,ponto_or])
+
+  caminho(pts_irr, pos_irri)
+}
+
+function caminho(pts_irr, pos_irri/*x, y, or*/) {
+
+  const x = pos_irri[0]
+  const y = pos_irri[1]
+  const or = pos_irri[2]
+
   let movimentos = []
 
   var teta
-
-  const orientacoes = ["l", 'n', 'o', 's']
 
   switch (or) {
     case "l":
@@ -259,10 +424,8 @@ function caminho(/*x, y, or*/) {
   }
 
   const posicoes = [
-    [x, y, teta],
-    [4, 1],
-    [4, 5],
-    [3,4]
+    [x, y, teta],//alterar essa versão anterior
+    ...pts_irr
   ]
 
   for (let i = 1; i < posicoes.length; i++) {
@@ -306,7 +469,7 @@ function caminho(/*x, y, or*/) {
   };
 
   console.log("Caminho: " + movimentos.join(","))
-  console.log("Orientação final: " + orientacoes[posicoes[posicoes.length - 1][2] / 90])*/
+  console.log("Orientação final: " + orientacoes[posicoes[posicoes.length - 1][2] / 90])
 }
 
 function girar(t0, t1) {
