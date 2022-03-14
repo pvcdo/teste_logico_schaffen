@@ -152,6 +152,7 @@ function pontoIrr(tamanhoCampoX,tamanhoCampoY){
   console.log(x,y)
 
   const pt_irr = document.createElement('img')
+  pt_irr.id = "pt-irr-" + id
   pt_irr.src = "./src/img/pt_irr.png"
   pt_irr.className = "pt_irr"
   pt_irr.style.top = `${60*(tamanhoCampoY-(y+1))}px`
@@ -390,12 +391,12 @@ function irrigar(){
   const ponto_y = parseInt(posicao.children[1].innerHTML)
   const ponto_or = posicao.children[2].innerHTML
 
-  pos_irri.push([ponto_x,ponto_y,ponto_or])
+  pos_irri.push(ponto_x,ponto_y,ponto_or)
 
   caminho(pts_irr, pos_irri)
 }
 
-function caminho(pts_irr, pos_irri/*x, y, or*/) {
+async function caminho(pts_irr, pos_irri/*x, y, or*/) {
 
   const x = pos_irri[0]
   const y = pos_irri[1]
@@ -404,6 +405,8 @@ function caminho(pts_irr, pos_irri/*x, y, or*/) {
   let movimentos = []
 
   var teta
+
+  const orientacoes = ['l','n','o','s']
 
   switch (or) {
     case "l":
@@ -424,7 +427,7 @@ function caminho(pts_irr, pos_irri/*x, y, or*/) {
   }
 
   const posicoes = [
-    [x, y, teta],//alterar essa versão anterior
+    [x, y, teta],
     ...pts_irr
   ]
 
@@ -443,10 +446,12 @@ function caminho(pts_irr, pos_irri/*x, y, or*/) {
     if (delta_x < 0) { teta_x = 180 }
     if (teta_x !== teta) {
       let giro = girar(teta, teta_x)
+      await movimentar(giro)
       movimentos.push(...giro)
     }
 
     for (var passo = 0; passo < Math.abs(delta_x); passo++) {
+      await movimentar("M",teta_x)
       movimentos.push("M")
     }
 
@@ -455,21 +460,37 @@ function caminho(pts_irr, pos_irri/*x, y, or*/) {
     if (delta_y < 0) { teta_y = 270 }
     if (teta_y !== teta_x) {
       let giro = girar(teta_x, teta_y)
+      await movimentar(giro)
       movimentos.push(...giro)
     }
 
     for (var passo = 0; passo < Math.abs(delta_y); passo++) {
+      await movimentar("M",teta_y)
       movimentos.push("M")
     }
 
     movimentos.push("I")
 
+    apagarPtIrr(i)
+
     posicoes[i].push(teta_y)
 
   };
 
-  console.log("Caminho: " + movimentos.join(","))
-  console.log("Orientação final: " + orientacoes[posicoes[posicoes.length - 1][2] / 90])
+  while(document.getElementById('controles').hasChildNodes()){
+    document.getElementById('controles').children[0].remove()
+  }
+
+  const area_operacao = document.getElementById('operacao')
+  
+  const caminho = document.createElement('p')
+  caminho.innerHTML = "Caminho: " + movimentos.join(",")
+
+  const orientacao = document.createElement('p')
+  orientacao.innerHTML = "Orientação final: " + orientacoes[posicoes[posicoes.length - 1][2] / 90]
+
+  area_operacao.appendChild(caminho)
+  area_operacao.appendChild(orientacao)
 }
 
 function girar(t0, t1) {
@@ -491,4 +512,51 @@ function girar(t0, t1) {
   if (t1 - t0 > 0) {
     return ["E"]
   }
+}
+
+function movimentar(movimento,teta){
+  const irrigador = document.getElementById('irrigador')
+  const topo = parseInt(irrigador.style.top)
+  const esq = parseInt(irrigador.style.left)
+
+  const transform = irrigador.style.transform
+
+  const texto_1 = transform.split("rotate(",)[1]
+  const giro = parseInt(texto_1.split("deg)")[0])
+
+  console.log(movimento)
+  
+  return new Promise(resolve => {
+    setTimeout(() => {
+      if(movimento === "M"){
+        if(teta === 0){irrigador.style.left = esq + 60 + "px"}
+        if(teta === 90){irrigador.style.top = topo - 60 + "px"}
+        if(teta === 180){irrigador.style.left = esq - 60 + "px"}
+        if(teta === 270){irrigador.style.top = topo + 60 + "px"}
+      }
+      if(movimento.length === 1 && movimento[0] === "D"){
+        console.log('girou direita')
+        irrigador.style.transform = `rotate(${giro+90}deg)`
+      }
+      if(movimento.length === 1 && movimento[0] === "E"){
+        console.log('girou esquerda')
+        irrigador.style.transform = `rotate(${giro-90}deg)`
+      }
+      if(movimento.length === 2){
+        movimentar("D")
+        movimentar("D")
+      }
+      resolve()
+    },1000)
+  })
+}
+
+function apagarPtIrr(i){
+  const pt_irr = document.getElementById(`pt-irr-${i}`)
+  return new Promise(resolve => {
+    setTimeout(() => {
+      pt_irr.remove()
+      resolve()
+    },1000)
+  })
 }
