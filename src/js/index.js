@@ -446,7 +446,8 @@ async function caminho(pts_irr, pos_irri/*x, y, or*/) {
     if (delta_x < 0) { teta_x = 180 }
     if (teta_x !== teta) {
       let giro = girar(teta, teta_x)
-      await movimentar(giro)
+      if(giro.length === 2){await movimentar(giro[0])}
+      await movimentar(giro[0])
       movimentos.push(...giro)
     }
 
@@ -460,7 +461,8 @@ async function caminho(pts_irr, pos_irri/*x, y, or*/) {
     if (delta_y < 0) { teta_y = 270 }
     if (teta_y !== teta_x) {
       let giro = girar(teta_x, teta_y)
-      await movimentar(giro)
+      if(giro.length === 2){await movimentar(giro[0])}
+      await movimentar(giro[0])
       movimentos.push(...giro)
     }
 
@@ -494,11 +496,13 @@ async function caminho(pts_irr, pos_irri/*x, y, or*/) {
 }
 
 function girar(t0, t1) {
-  if (t1 === 270) {
-    if (t0 === 0) {
+  if (t0 === 0) {
+    if (t1 === 270) {
       return ["D"]
     }
-    if (t0 === 180) {
+  }
+  if(t0 === 270){
+    if(t1 === 0){
       return ["E"]
     }
   }
@@ -520,11 +524,8 @@ function movimentar(movimento,teta){
   const esq = parseInt(irrigador.style.left)
 
   const transform = irrigador.style.transform
-
   const texto_1 = transform.split("rotate(",)[1]
   const giro = parseInt(texto_1.split("deg)")[0])
-
-  console.log(movimento)
   
   return new Promise(resolve => {
     setTimeout(() => {
